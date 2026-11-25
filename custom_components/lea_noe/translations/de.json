@@ -6,15 +6,16 @@
         "title": "LEA BOS mobil – persönlicher Zugang",
         "description": "Inoffizielle Testversion. Der laufende Betrieb liest ausschließlich persönliche Meldungen. Die echte Anmeldung und der Parallelbetrieb mit der Handy-App sind noch nicht geprüft.",
         "menu_options": {
-          "phone": "SMS-Anmeldung (iPhone)",
+          "phone": "SMS-Anmeldung / Gerätewechsel (iPhone)",
           "token": "Vorhandener Sitzungstoken"
         }
       },
       "phone": {
-        "title": "SMS-Code anfordern",
-        "description": "Für LEA auf einem iPhone. Dieser Anmeldeweg verwendet wie die App eine Anmeldung ohne vorhandenen Push-Token. Mit Fortfahren wird ein SMS-Code an deine Nummer angefordert. Prüfe nach der Anmeldung den Empfang in deiner LEA-App. Bei einer Sperre mindestens {seconds} Sekunden warten.",
+        "title": "Gerätewechsel per SMS",
+        "description": "Eine neue LEA-Anmeldung kann deine bestehende Sitzung auf dem anderen Gerät abmelden. Dieser Weg ist kein bestätigter Parallelzugang. Mit Fortfahren wird ein SMS-Code angefordert. Für reine Leseanfragen ohne neue Anmeldung kann ein bereits vorhandener persönlicher Sitzungstoken genutzt werden; auch dessen Parallelbetrieb ist nicht zugesichert. Bei einer Sperre mindestens {seconds} Sekunden warten.",
         "data": {
-          "phone_number": "Handynummer"
+          "phone_number": "Handynummer",
+          "confirm_session_change": "Mir ist bewusst, dass mein anderes LEA-Gerät abgemeldet werden kann."
         }
       },
       "sms": {
@@ -40,7 +41,8 @@
       "access_denied": "LEA verweigert den Zugriff. Bitte die Berechtigungen deines Zugangs prüfen.",
       "cannot_connect": "LEA ist derzeit nicht erreichbar. Bitte später erneut versuchen.",
       "invalid_response": "LEA liefert ein unerwartetes Datenformat. Die Anmeldung wurde nicht abgeschlossen.",
-      "rate_limited": "LEA begrenzt weitere Versuche. Bitte die Sperrzeit abwarten; nach zu vielen falschen Codes einen neuen Code anfordern."
+      "rate_limited": "LEA begrenzt weitere Versuche. Bitte die Sperrzeit abwarten; nach zu vielen falschen Codes einen neuen Code anfordern.",
+      "session_change_not_confirmed": "Bitte den möglichen Gerätewechsel bestätigen oder den bestehenden Sitzungstoken verwenden."
     },
     "abort": {
       "already_configured": "Dieser LEA-Zugang ist bereits eingerichtet.",
