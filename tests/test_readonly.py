@@ -187,6 +187,21 @@ class ReadOnlyTests(unittest.IsolatedAsyncioTestCase):
 
 
 class ModelTests(unittest.TestCase):
+    def test_coordinates_require_details_and_are_not_in_basic_event_attributes(self):
+        incident = {"positionX": "48.2", "positionY": "16.3"}
+        hidden = models.project_notification(notification(), incident, {}, False)
+        self.assertIsNone(hidden.latitude)
+        self.assertNotIn("latitude", hidden.attributes())
+        visible = models.project_notification(notification(), incident, {}, True)
+        self.assertEqual(visible.attributes(True)["latitude"], 48.2)
+        self.assertEqual(visible.attributes(True)["longitude"], 16.3)
+        self.assertNotIn("latitude", visible.attributes())
+
+    def test_invalid_coordinates_are_not_exposed(self):
+        for value in [True, "nan", "inf", "-inf", "https://example.com", 91, -91, {}, []]:
+            self.assertIsNone(models.coordinate(value, 90))
+        self.assertEqual(models.coordinate("0", 90), 0)
+
     def test_phone_normalization(self):
         self.assertEqual(models.normalize_phone("0664 / 1234567"), "+436641234567")
         self.assertEqual(models.normalize_phone("00436641234567"), "+436641234567")

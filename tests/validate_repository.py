@@ -21,6 +21,9 @@ for path in integration.glob("*.py"):
     ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
 icon = (integration / "brand" / "icon.png").read_bytes()
 assert icon[:8] == b"\x89PNG\r\n\x1a\n"
-assert struct.unpack(">II", icon[16:24]) == (256, 256)
+width,height=struct.unpack(">II", icon[16:24])
+assert width == height and width >= 256
+assert (integration / "frontend" / "lea-logo.svg").is_file()
+assert (integration / "frontend" / "lea-card.js").is_file()
 print("JSON, Python syntax, HACS manifest, integration layout and PNG icon: OK")
 
