@@ -1,8 +1,20 @@
 # LEA BOS mobil für Home Assistant – Lesen
 
-Version **0.1.0 – experimentelle Testversion**, entwickelt aus der bereitgestellten LEA-Android-Datei 2.0.0. Es handelt sich um eine inoffizielle Custom Integration.
+Version **0.2.0 – experimentelle Testversion**, entwickelt aus der bereitgestellten LEA-Android-Datei 2.0.0. Es handelt sich um eine inoffizielle Custom Integration.
 
-Der Code ist erstellt und offline geprüft. **Eine echte Anmeldung bei LEA und ein Lauf in Home Assistant wurden noch nicht getestet.** Ob der Server den aus der App übernommenen Anmeldeweg für diesen Client akzeptiert, bleibt offen. Auch die Auswirkungen auf ein parallel angemeldetes Handy sind noch nicht geprüft. Die Integration ist eine ergänzende Anzeige; die LEA-App bleibt für die reguläre Alarmierung erforderlich.
+Der Code ist erstellt und offline geprüft. Die Dashboardkarte wurde in Home Assistant sichtbar geprüft; die LEA-Entitäten waren dabei nicht verfügbar. **Version 0.2.0 ist noch nicht mit echten Alarmen vollständig getestet.** Bei einer neuen persönlichen Anmeldung wurde eine automatische Abmeldung des anderen Geräts gemeldet. Ein verlässlicher Parallelzugang ist nicht bestätigt. Die Integration ist eine ergänzende Anzeige; die LEA-App bleibt für die reguläre Alarmierung erforderlich.
+
+## Seitenleiste und Ansicht
+
+Ab Version 0.2.0 wird nach erfolgreicher Einrichtung automatisch der Eintrag **LEA** in der HA-Seitenleiste angelegt. Die Ansicht zeigt persönliche Meldungen als Liste mit Suchfunktion und Detailansicht. Sie verwendet das originale LEA-Logo und die Farben der App. Es handelt sich um eine neu entwickelte, ausschließlich lesende HA-Oberfläche; sie bildet die App nicht vollständig nach.
+
+Die Bereiche **Meldungen**, **Karte** und **Verbindung** dienen der Anzeige. Es gibt keine Zusage-, Absage- oder Quittierungsbedienung. Ein vorhandenes Dashboard unter dem Pfad `lea-noe` wird respektiert und nicht überschrieben. Die eigenständige Seitenleiste und die vollständige Listen-Schnittstelle sind auf HA-Administratoren beschränkt.
+
+Die Kartenansicht benötigt gültige Einsatzkoordinaten und die aktivierte Detailoption der Integration. Eine externe OpenStreetMap-Karte wird erst nach einem bewussten Klick geladen; die Oberfläche nennt dabei die Übermittlung des Kartenausschnitts und der Einsatzkoordinaten. Ohne diesen Klick wird keine externe Karte eingebettet.
+
+Die Ansicht liest den vorhandenen HA-Datenstand über eine authentifizierte, lesende WebSocket-Schnittstelle. Dadurch entstehen keine zusätzlichen LEA-Anmeldungen oder Quittierungen. Bestehende Karten auf Version 0.1.0 können zunächst die letzte Meldung darstellen; die vollständige Liste benötigt das Integrationsupdate.
+
+Originalgrafiken: siehe [Herkunft und Kennzeichnung](custom_components/lea_noe/frontend/ATTRIBUTION.md).
 
 ## Installation mit HACS
 
@@ -14,7 +26,7 @@ Der Code ist erstellt und offline geprüft. **Eine echte Anmeldung bei LEA und e
 4. **LEA BOS mobil (Lesen)** suchen, öffnen und herunterladen.
 5. Home Assistant über seine Oberfläche neu starten.
 6. **Einstellungen → Geräte & Dienste → Integration hinzufügen → LEA BOS mobil (Lesen)** öffnen.
-7. **SMS-Anmeldung (iPhone)** oder **Vorhandener Sitzungstoken** wählen und die Anmeldung direkt in Home Assistant durchführen.
+7. **Vorhandener Sitzungstoken** oder **SMS-Anmeldung / Gerätewechsel (iPhone)** wählen. Ein neuer SMS-Login kann das andere LEA-Gerät abmelden. Die Anmeldung direkt in Home Assistant durchführen.
 
 Das ist ein benutzerdefiniertes HACS-Repository; eine Aufnahme in die HACS-Standardliste ist dafür nicht erforderlich. Updates werden über dieses Repository bereitgestellt.
 
@@ -24,11 +36,13 @@ Das ist ein benutzerdefiniertes HACS-Repository; eine Aufnahme in die HACS-Stand
 2. Den enthaltenen Ordner `custom_components/lea_noe` nach `/config/custom_components/lea_noe` auf dem Home-Assistant-System kopieren. `manifest.json` muss direkt in diesem Ordner liegen.
 3. Home Assistant über seine Oberfläche neu starten.
 4. **Einstellungen → Geräte & Dienste → Integration hinzufügen → LEA BOS mobil (Lesen)** öffnen.
-5. **SMS-Anmeldung (iPhone)** wählen, die in LEA hinterlegte Handynummer eingeben und den SMS-Code anschließend direkt in Home Assistant eintragen. Die Nummer kann mit `+43`, `0043` oder österreichisch mit `0` beginnen.
+5. Die gewünschte Anmeldung wählen. Bei einem **SMS-Gerätewechsel** die in LEA hinterlegte Handynummer eingeben und den SMS-Code anschließend direkt in Home Assistant eintragen. Die Nummer kann mit `+43`, `0043` oder österreichisch mit `0` beginnen. Ein neuer Login kann das andere Gerät abmelden.
 
 Die Eingabe und Speicherung der Zugangsdaten erfolgt in deinem Home Assistant. Bitte keine SMS-Codes oder Sitzungstoken in einen Chat schreiben.
 
 Alternativ gibt es **Vorhandener Sitzungstoken**. Das ist ein persönlicher LEA-Sitzungstoken, kein Infoscreen-Token. Dieser Weg führt ausschließlich Leseanfragen aus und fordert keine SMS an. Er setzt voraus, dass dir ein solcher eigener Token bereits zur Verfügung steht.
+
+**Parallelbetrieb:** Bei erneuter persönlicher Anmeldung wurde eine automatische Abmeldung auf dem anderen Gerät beobachtet. Das Fälschen einer Gerätekennung ist keine bestätigte Lösung. Derselbe bestehende Sitzungstoken vermeidet technisch einen neuen Login, seine parallele Nutzung ist jedoch nicht serverseitig bestätigt. Es ist kein verifizierter normaler Token-Export aus der Smartphone-App beschrieben. Für einen vom persönlichen Login getrennten Betrieb ist ein vom Betreiber dafür bereitgestellter Lesezugang erforderlich; der Infoscreen-Zugang ist eine andere Zugangsart und wird von dieser persönlichen Integration nicht unterstützt.
 
 ## Welche Anmeldung ist implementiert?
 
@@ -68,7 +82,7 @@ Die erkannten IDs werden lokal gespeichert. Nach Neustarts werden bereits bekann
 Unter **Einstellungen → Geräte & Dienste → LEA → Konfigurieren**:
 
 - **Abrufintervall:** 30 bis 300 Sekunden, Standard 30. Der Empfang erfolgt durch Abfragen, nicht per Push. Serverbegrenzungen und Netzstörungen können die Verzögerung verlängern.
-- **Meldungstext und Einsatzort anzeigen:** standardmäßig aus. Bei Aktivierung erscheinen `meldebild`, `nachricht` und `einsatzort` nur in den Attributen des Sensors „Letzte Meldung“. Dadurch können diese Inhalte auch in HA-Verlauf und Backups gespeichert werden. Die Event-Entität enthält weiterhin ausschließlich die Grundattribute.
+- **Meldungstext und Einsatzort anzeigen:** standardmäßig aus. Bei Aktivierung erscheinen `meldebild`, `nachricht`, `einsatzort` und gültige Koordinaten in den Attributen des Sensors "Letzte Meldung" sowie in der vollständigen Meldungsliste der Administratoransicht. Dadurch können diese Inhalte auch in HA-Verlauf und Backups gespeichert werden. Die Event-Entität enthält weiterhin ausschließlich die Grundattribute.
 
 Die Integration fordert keine Patienten-Unterressourcen oder Rückmeldelisten an und übernimmt keine Patientenobjekte, Personennamen oder Teilnehmerlisten in Entitäten. Ein freier Meldungstext kann personenbezogene Angaben enthalten; die Detailoption ist deshalb bewusst ausgeschaltet. Konto- und Meldungsinhalte erscheinen nicht in der herunterladbaren Integrationsdiagnose.
 
@@ -98,7 +112,7 @@ python tests/validate_repository.py
 
 Der Teststand und die noch offenen Live-Prüfungen stehen in [VALIDIERUNG.md](VALIDIERUNG.md). Die aus der Datei belegten Protokolldetails stehen in [PROTOKOLL.md](PROTOKOLL.md). Der Workflow **Offline tests** führt die Offline-Tests und die Paketprüfung bei Änderungen auf GitHub aus.
 
-Das Repository enthält eigenen Integrationscode, Tests und Dokumentation. Das mitgelieferte Symbol ist ein eigenes allgemeines Meldungssymbol; es ist kein offizielles LEA-Logo. APK-Dateien und fremde App-Programmdateien werden nicht mitgeliefert.
+Das Repository enthält eigenen Integrationscode, Tests und Dokumentation sowie die auf Nutzerwunsch übernommenen originalen LEA-Grafiken mit Herkunftshinweis. APK-Dateien und fremder App-Programmcode werden nicht mitgeliefert.
 
 Fehler können über [GitHub Issues](https://github.com/eignerth2010-byte/ha-lea-noe/issues) gemeldet werden. Bitte dabei die Integrationsversion, die Home-Assistant-Version und die Integrationsdiagnose angeben. Keine Handynummern, Sitzungstoken, SMS-Codes oder echten Einsatztexte veröffentlichen.
 

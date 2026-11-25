@@ -1,10 +1,10 @@
-# Prüfstand – Version 0.1.0
+# Prüfstand – Version 0.2.0
 
 Stand: 25.11.2026. Zielsystem: Home Assistant 2026.11.3; Mindestversion dieser Implementierung: 2026.11.
 
 ## Ausgeführt
 
-**20 Offline-Tests bestanden** mit `python -m unittest discover -s tests -v` unter Python 3.12. Laufzeit beim ersten vollständigen Testlauf: rund 0,25 Sekunden. Keine Verbindung zu einem echten LEA-Konto wurde dabei aufgebaut.
+**22 Offline-Tests bestanden** mit `python -m unittest discover -s tests -v` unter Python 3.12. Keine Verbindung zu einem echten LEA-Konto wurde dabei aufgebaut. Zusätzlich werden die Begrenzung und die optionale Freigabe der Einsatzkoordinaten geprüft.
 
 Geprüft werden:
 
@@ -35,5 +35,7 @@ Noch offen sind insbesondere:
 6. Verhalten bei einem tatsächlichen neuen Alarm sowie einem Storno.
 7. Mögliche interne Nebenwirkungen der GET-Endpunkte auf dem Server. Der Client selbst sendet keine Empfangs- oder Lesebestätigung.
 
-Die Version ist deshalb ausdrücklich **experimentell und noch nicht produktiv verifiziert**. Die Analyse- und Testschritte rechtfertigen keine Aussage, dass die Anmeldung bereits funktioniert oder die reguläre Alarmierung unverändert bleibt.
+Die Version ist deshalb ausdrücklich **experimentell und noch nicht produktiv verifiziert**. Nach der ersten Bereitstellung wurde eine automatische Abmeldung des anderen LEA-Geräts bei einer neuen persönlichen Anmeldung gemeldet. Die Konfiguration kennzeichnet den SMS-Weg deshalb als möglichen Gerätewechsel und verlangt eine bewusste Bestätigung. Die Wiederverwendung eines persönlichen Tokens ist als Parallelzugang nicht verifiziert.
+
+Die LEA-Dashboardkarte wurde in der vorhandenen HA-Instanz mit dem originalen Logo und der Seitenleistenverknüpfung sichtbar geprüft. Zum Prüfzeitpunkt lieferten die LEA-Sensoren keinen aktuellen Datenstand. Eine Prüfung mit echten Meldungen, einer mobilen Browserbreite und gültigen Einsatzkoordinaten steht noch aus. Ein bestehendes Dashboard unter `lea-noe` wird vom neuen automatischen Panel nicht überschrieben.
 
