@@ -1,0 +1,80 @@
+{
+  "title": "LEA BOS mobil (Lesen)",
+  "config": {
+    "step": {
+      "user": {
+        "title": "LEA BOS mobil – persönlicher Zugang",
+        "description": "Inoffizielle Testversion. Der laufende Betrieb liest ausschließlich persönliche Meldungen. Die echte Anmeldung und der Parallelbetrieb mit der Handy-App sind noch nicht geprüft.",
+        "menu_options": {
+          "phone": "SMS-Anmeldung (iPhone)",
+          "token": "Vorhandener Sitzungstoken"
+        }
+      },
+      "phone": {
+        "title": "SMS-Code anfordern",
+        "description": "Für LEA auf einem iPhone. Dieser Anmeldeweg verwendet wie die App eine Anmeldung ohne vorhandenen Push-Token. Mit Fortfahren wird ein SMS-Code an deine Nummer angefordert. Prüfe nach der Anmeldung den Empfang in deiner LEA-App. Bei einer Sperre mindestens {seconds} Sekunden warten.",
+        "data": {
+          "phone_number": "Handynummer"
+        }
+      },
+      "sms": {
+        "title": "SMS-Code eingeben",
+        "description": "Gib den Code für die Nummer mit den Endziffern {phone_suffix} ein. Für einen neuen Code das Feld leer lassen und „Neuen SMS-Code anfordern“ aktivieren. Bei einer Sperre mindestens {seconds} Sekunden warten.",
+        "data": {
+          "sms_code": "Fünfstelliger SMS-Code",
+          "resend_code": "Neuen SMS-Code anfordern"
+        }
+      },
+      "token": {
+        "title": "Persönlichen Sitzungstoken verwenden",
+        "description": "Trage nur deinen eigenen persönlichen LEA-Sitzungstoken ein. Ein Infoscreen-Token ist dafür ungeeignet. Dieser Weg fordert keine SMS an und legt keine neue LEA-Sitzung an.",
+        "data": {
+          "access_token": "Persönlicher LEA-Sitzungstoken"
+        }
+      }
+    },
+    "error": {
+      "invalid_phone": "Bitte eine gültige Handynummer mit Vorwahl eingeben.",
+      "invalid_code": "Bitte den fünfstelligen SMS-Code eingeben.",
+      "invalid_auth": "Sitzungstoken oder SMS-Code wurde von LEA nicht akzeptiert.",
+      "access_denied": "LEA verweigert den Zugriff. Bitte die Berechtigungen deines Zugangs prüfen.",
+      "cannot_connect": "LEA ist derzeit nicht erreichbar. Bitte später erneut versuchen.",
+      "invalid_response": "LEA liefert ein unerwartetes Datenformat. Die Anmeldung wurde nicht abgeschlossen.",
+      "rate_limited": "LEA begrenzt weitere Versuche. Bitte die Sperrzeit abwarten; nach zu vielen falschen Codes einen neuen Code anfordern."
+    },
+    "abort": {
+      "already_configured": "Dieser LEA-Zugang ist bereits eingerichtet.",
+      "unique_id_mismatch": "Bitte erneut mit demselben LEA-Konto anmelden."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "LEA-Lesezugriff",
+        "description": "Abruf alle 30 bis 300 Sekunden. Zusätzliche Details erscheinen am Sensor „Letzte Meldung“ und können dadurch auch in HA-Verlauf und Backups gelangen. Die Event-Entität zeigt ausschließlich Grundattribute.",
+        "data": {
+          "poll_interval": "Abrufintervall (Sekunden)",
+          "include_details": "Meldungstext, Meldebild und Einsatzort anzeigen"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "latest_notification": {
+        "name": "Letzte Meldung"
+      },
+      "inbox_count": {
+        "name": "Meldungen im Abruffenster"
+      },
+      "last_fetch": {
+        "name": "Letzter erfolgreicher Abruf"
+      }
+    },
+    "event": {
+      "notification": {
+        "name": "Neue Meldung"
+      }
+    }
+  }
+}

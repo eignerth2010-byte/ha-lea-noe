@@ -1,0 +1,80 @@
+{
+  "title": "LEA BOS mobil (read only)",
+  "config": {
+    "step": {
+      "user": {
+        "title": "LEA BOS mobil – personal account",
+        "description": "Unofficial experimental integration. Runtime requests only read personal notifications. Live login and simultaneous operation with the phone app have not been tested.",
+        "menu_options": {
+          "phone": "SMS login (iPhone)",
+          "token": "Existing session token"
+        }
+      },
+      "phone": {
+        "title": "Request an SMS code",
+        "description": "For LEA on an iPhone. This uses the app's login path without an existing push token. Continuing requests an SMS code. Check reception in your LEA phone app after signing in. If rate limited, wait at least {seconds} seconds.",
+        "data": {
+          "phone_number": "Mobile number"
+        }
+      },
+      "sms": {
+        "title": "Enter SMS code",
+        "description": "Enter the code sent to the number ending in {phone_suffix}. To request a new code, leave the code empty and select the resend option. If rate limited, wait at least {seconds} seconds.",
+        "data": {
+          "sms_code": "Five-digit SMS code",
+          "resend_code": "Request a new SMS code"
+        }
+      },
+      "token": {
+        "title": "Use a personal session token",
+        "description": "Enter your own personal LEA session token. An infoscreen token is not suitable. This method does not request an SMS or create a new LEA session.",
+        "data": {
+          "access_token": "Personal LEA session token"
+        }
+      }
+    },
+    "error": {
+      "invalid_phone": "Enter a valid mobile number including its country code.",
+      "invalid_code": "Enter the five-digit SMS code.",
+      "invalid_auth": "LEA rejected the session token or SMS code.",
+      "access_denied": "LEA denied access. Check the permissions of your account.",
+      "cannot_connect": "Cannot reach LEA. Try again later.",
+      "invalid_response": "LEA returned an unexpected response. Setup was not completed.",
+      "rate_limited": "LEA has limited further attempts. Wait before retrying; request a new code after too many incorrect codes."
+    },
+    "abort": {
+      "already_configured": "This LEA account is already configured.",
+      "unique_id_mismatch": "Sign in with the same LEA account."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "LEA read access",
+        "description": "Poll every 30 to 300 seconds. Optional text and location details appear on the latest-notification sensor and may then enter HA history and backups. The event entity only exposes basic attributes.",
+        "data": {
+          "poll_interval": "Polling interval (seconds)",
+          "include_details": "Show message text, keyword and incident location"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "latest_notification": {
+        "name": "Latest notification"
+      },
+      "inbox_count": {
+        "name": "Notifications in polling window"
+      },
+      "last_fetch": {
+        "name": "Last successful fetch"
+      }
+    },
+    "event": {
+      "notification": {
+        "name": "New notification"
+      }
+    }
+  }
+}
