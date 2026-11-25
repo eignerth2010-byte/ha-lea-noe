@@ -6,15 +6,16 @@
         "title": "LEA BOS mobil – personal account",
         "description": "Unofficial experimental integration. Runtime requests only read personal notifications. Live login and simultaneous operation with the phone app have not been tested.",
         "menu_options": {
-          "phone": "SMS login (iPhone)",
+          "phone": "SMS login / device change (iPhone)",
           "token": "Existing session token"
         }
       },
       "phone": {
-        "title": "Request an SMS code",
-        "description": "For LEA on an iPhone. This uses the app's login path without an existing push token. Continuing requests an SMS code. Check reception in your LEA phone app after signing in. If rate limited, wait at least {seconds} seconds.",
+        "title": "Switch device using SMS",
+        "description": "A new LEA login can sign out the existing session on your other device. This is not a verified concurrent-access method. Continuing requests an SMS code. An existing personal session token avoids a new login, but concurrent use is not guaranteed. If rate limited, wait at least {seconds} seconds.",
         "data": {
-          "phone_number": "Mobile number"
+          "phone_number": "Mobile number",
+          "confirm_session_change": "I understand that my other LEA device may be signed out."
         }
       },
       "sms": {
@@ -40,7 +41,8 @@
       "access_denied": "LEA denied access. Check the permissions of your account.",
       "cannot_connect": "Cannot reach LEA. Try again later.",
       "invalid_response": "LEA returned an unexpected response. Setup was not completed.",
-      "rate_limited": "LEA has limited further attempts. Wait before retrying; request a new code after too many incorrect codes."
+      "rate_limited": "LEA has limited further attempts. Wait before retrying; request a new code after too many incorrect codes.",
+      "session_change_not_confirmed": "Confirm the possible device switch or use an existing session token."
     },
     "abort": {
       "already_configured": "This LEA account is already configured.",

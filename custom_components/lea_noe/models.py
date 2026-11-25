@@ -35,6 +35,8 @@ def parse_timestamp(value: Any) -> datetime | None:
     """Parse ISO timestamps or Unix seconds/milliseconds, returning UTC."""
     if value is None or isinstance(value, bool):
         return None
+
+
     try:
         raw = str(value).strip()
         if re.fullmatch(r"\d{10}(?:\.\d+)?|\d{13}", raw):
@@ -47,6 +49,17 @@ def parse_timestamp(value: Any) -> datetime | None:
             return None
         return parsed.astimezone(timezone.utc)
     except (ValueError, TypeError, OverflowError, OSError):
+        return None
+
+
+def coordinate(value: Any, limit: float) -> float | None:
+    """Accept a finite coordinate only; never interpret arbitrary strings as URLs."""
+    if value is None or isinstance(value, bool):
+        return None
+    try:
+        result = float(value)
+        return result if -limit <= result <= limit else None
+    except (ValueError, TypeError, OverflowError):
         return None
 
 
@@ -64,6 +77,8 @@ class Notification:
     keyword: str
     message: str
     location: str
+    latitude: float | None = None
+    longitude: float | None = None
 
     @property
     def label(self) -> str:
@@ -81,6 +96,8 @@ class Notification:
         }
         if include_details:
             attributes.update(meldebild=self.keyword, nachricht=self.message, einsatzort=self.location)
+            if self.latitude is not None and self.longitude is not None:
+                attributes.update(latitude=self.latitude, longitude=self.longitude)
         return attributes
 
 
@@ -111,6 +128,8 @@ def project_notification(inbox: dict, incident: dict, embedded: dict, include_de
         keyword=text(row.get("meldebild")) if include_details else "",
         message=text(row.get("nachricht")) if include_details else "",
         location=text(row.get("einsatzort")) if include_details else "",
+        latitude=coordinate(incident.get("positionX"), 90) if include_details else None,
+        longitude=coordinate(incident.get("positionY"), 180) if include_details else None,
     )
 
 

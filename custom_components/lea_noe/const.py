@@ -2,7 +2,7 @@
 
 DOMAIN = "lea_noe"
 NAME = "LEA BOS mobil"
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 API_HOST = "https://lea.api.notrufnoe.at"
 CONF_PHONE = "phone_number"
 CONF_TOKEN = "access_token"

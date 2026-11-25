@@ -9,8 +9,14 @@ from homeassistant.helpers.storage import Store
 from .api import LeaClient
 from .const import CONF_TOKEN, DOMAIN
 from .coordinator import LeaCoordinator
+from .panel import async_setup_frontend, async_add_entry_panel, async_remove_entry_panel
 
 PLATFORMS = [Platform.SENSOR, Platform.EVENT]
+
+
+async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+    await async_setup_frontend(hass)
+    return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -20,6 +26,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.async_config_entry_first_refresh()
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    await async_add_entry_panel(hass, entry.entry_id, coordinator)
     entry.async_on_unload(entry.add_update_listener(_async_options_updated))
     return True
 
@@ -31,6 +38,7 @@ async def _async_options_updated(hass: HomeAssistant, entry: ConfigEntry) -> Non
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     unloaded = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unloaded:
+        async_remove_entry_panel(hass, entry.entry_id)
         await entry.runtime_data.async_save_seen()
     return unloaded
 

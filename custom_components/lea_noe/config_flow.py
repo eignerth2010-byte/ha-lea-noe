@@ -52,7 +52,7 @@ class LeaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return LeaClient(async_get_clientsession(self.hass), allow_auth=True)
 
     async def async_step_user(self, user_input=None):
-        return self.async_show_menu(step_id="user", menu_options=["phone", "token"])
+        return self.async_show_menu(step_id="user", menu_options=["token", "phone"])
 
     async def async_step_reauth(self, entry_data):
         self._phone = str(entry_data.get(CONF_PHONE, ""))
@@ -64,6 +64,9 @@ class LeaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_phone(self, user_input: dict[str, Any] | None = None):
         errors = {}
+        if user_input is not None and user_input.get("confirm_session_change") is not True:
+            errors["confirm_session_change"] = "session_change_not_confirmed"
+            user_input = None
         if user_input is not None:
             try:
                 self._phone = normalize_phone(user_input[CONF_PHONE])
@@ -86,7 +89,10 @@ class LeaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     return await self.async_step_sms()
         return self.async_show_form(
             step_id="phone", errors=errors,
-            data_schema=p.Schema({p.Required(CONF_PHONE, default=self._phone): str}),
+            data_schema=p.Schema({
+                p.Required(CONF_PHONE, default=self._phone): str,
+                p.Required("confirm_session_change", default=False): bool,
+            }),
             description_placeholders={"seconds": str(self._cooldown)},
         )
 

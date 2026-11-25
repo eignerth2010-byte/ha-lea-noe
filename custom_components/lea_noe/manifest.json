@@ -3,11 +3,12 @@
   "name": "LEA BOS mobil (Lesen)",
   "codeowners": ["@eignerth2010-byte"],
   "config_flow": true,
+  "dependencies": ["frontend", "http", "panel_custom", "websocket_api"],
   "documentation": "https://github.com/eignerth2010-byte/ha-lea-noe",
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/eignerth2010-byte/ha-lea-noe/issues",
   "requirements": [],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
 
