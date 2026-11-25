@@ -1,0 +1,25 @@
+name: Offline tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run protocol and read-only tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate Python syntax
+        run: python -m compileall -q custom_components
+      - name: Validate JSON and HACS repository structure
+        run: python tests/validate_repository.py
+
