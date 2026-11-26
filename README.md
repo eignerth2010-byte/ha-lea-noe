@@ -1,8 +1,31 @@
 # LEA BOS mobil für Home Assistant – Lesen
 
-Version **0.2.0 – experimentelle Testversion**, entwickelt aus der bereitgestellten LEA-Android-Datei 2.0.0. Es handelt sich um eine inoffizielle Custom Integration.
+Version **0.3.0 - experimentelle Testversion**, entwickelt aus der bereitgestellten LEA-Android-Datei 2.0.0. Es handelt sich um eine inoffizielle Custom Integration.
 
-Der Code ist erstellt und offline geprüft. Die Dashboardkarte wurde in Home Assistant sichtbar geprüft; die LEA-Entitäten waren dabei nicht verfügbar. **Version 0.2.0 ist noch nicht mit echten Alarmen vollständig getestet.** Bei einer neuen persönlichen Anmeldung wurde eine automatische Abmeldung des anderen Geräts gemeldet. Ein verlässlicher Parallelzugang ist nicht bestätigt. Die Integration ist eine ergänzende Anzeige; die LEA-App bleibt für die reguläre Alarmierung erforderlich.
+Der Code ist erstellt und offline geprüft. Version 0.2.0 hat in einer HA-Instanz erfolgreiche, wiederholte Abrufe einer leeren persönlichen Inbox geliefert. **Ein echter neuer Alarm und die Tonwiedergabe von Version 0.3.0 auf Hardware sind noch nicht vollständig getestet.** Bei einer neuen persönlichen Anmeldung wurde eine automatische Abmeldung des anderen Geräts gemeldet. Ein verlässlicher Parallelzugang mit derselben persönlichen Sitzung ist nicht bestätigt. Die Integration ist eine ergänzende Anzeige; die LEA-App bleibt für die reguläre Alarmierung erforderlich.
+
+## HA-Alarmierung mit originalen LEA-Tönen
+
+Alle 39 Audiodateien aus `res/raw/` der bereitgestellten APK sind im Integrationsordner enthalten. Die beiden identischen Lautlos-Dateien werden als eine Option angeboten: **38 auswählbare Töne einschließlich Lautlos**. Dazu gehören FW Prio 1–3, RD Prio 1–3, FR Neu, KT, Alarm, Alarm 1–2, Martinshorn, Sirene, Gong, Ring, Glocken, Ding-Töne, Türklingeln und weitere kurze Benachrichtigungstöne. Ein separater Download oder Upload nach `/config/www` ist nicht erforderlich.
+
+Unter **Einstellungen → Geräte & Dienste → LEA BOS mobil → Konfigurieren**:
+
+1. Ein oder mehrere HA-Mediengeräte auswählen, die Audio-URLs wiedergeben können.
+2. Alarmton, Lautstärke und maximale Wiedergabedauer auswählen.
+3. Speichern und am LEA-Gerät die Taste **HA-Alarmton testen** verwenden.
+4. Nach erfolgreichem Gerätetest die Option **Neue LEA-Alarme in HA mit Ton wiedergeben** aktivieren.
+
+Die automatische Wiedergabe ist zunächst ausgeschaltet. Sie reagiert nur auf neu erkannte persönliche Meldungen mit Kategorie `alarm` (LEA-Typen 100/60). Informationen, Nachrichten und Stornos bleiben stumm. Ein Probealarm kann dieselbe Kategorie haben und dann ebenfalls auslösen. Vorhandene Meldungen beim ersten Einlesen werden nicht abgespielt; bereits bekannte Meldungs-IDs werden nach einem Neustart nicht erneut abgespielt.
+
+Die Tonausgabe erfolgt im HA-Backend und funktioniert auch bei geschlossenem Dashboard. **HA-Alarmton stoppen** beendet die noch verwaltete Wiedergabe. Die Zeitoption begrenzt die Wiedergabe; kurze Töne werden nicht in einer Schleife wiederholt. Geräte und Netzwerk können Start und Stopp verzögern. Die vom Gerät gemeldete vorherige Lautstärke wird anschließend wiederhergestellt, sofern sie zwischenzeitlich nicht manuell geändert wurde. Geräte ohne Lautstärkerückmeldung erlauben diese Wiederherstellung nicht. Der aktuelle Medieninhalt wird nicht gesichert; auf den gewählten Geräten kann laufende Wiedergabe unterbrochen werden. Alexa-Geräte unterstützen nicht generell beliebige lokale Audiodateien und benötigen einen erfolgreichen Gerätetest.
+
+In der LEA-Seitenleiste gibt es den Bereich **Alarmtöne** mit Browser-Vorschau aller Töne, aktuellem HA-Tonstatus und den Test-/Stopptasten für die gewählten HA-Geräte. Die Vorschau spielt auf dem Browsergerät. Auswahl und Aktivierung erfolgen in den Integrationsoptionen. Die HA-Basisadresse muss von den Wiedergabegeräten erreichbar sein.
+
+Diese Einstellungen und Tasten ändern ausschließlich HA-Geräte. Sie verändern keine Töne, Lautstärken oder Alarmierungswege in der LEA-App und senden keine Quittierung an LEA. Herkunft und SHA-256-Werte stehen in [ATTRIBUTION.md](custom_components/lea_noe/frontend/ATTRIBUTION.md) und [catalog.json](custom_components/lea_noe/frontend/sounds/catalog.json).
+
+### Bestehende Dashboardkarte aktualisieren
+
+Wenn die Karte bisher als Inline-Ressource eingerichtet wurde, deren Ressourcen-URL nach dem Integrationsupdate durch `/lea-noe-static/lea-card.js?v=0.3.0` ersetzen und den Browser vollständig neu laden. Nur eine LEA-Kartenressource registrieren. Der automatisch angelegte Panel-Eintrag verwendet die mitgelieferte Version bereits selbst.
 
 ## Seitenleiste und Ansicht
 

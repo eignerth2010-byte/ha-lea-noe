@@ -1,10 +1,10 @@
-# Prüfstand – Version 0.2.0
+# Prüfstand – Version 0.3.0
 
-Stand: 25.11.2026. Zielsystem: Home Assistant 2026.11.3; Mindestversion dieser Implementierung: 2026.11.
+Stand: 26.11.2026. Zielsystem: Home Assistant 2026.11.3; Mindestversion dieser Implementierung: 2026.11.
 
 ## Ausgeführt
 
-**22 Offline-Tests bestanden** mit `python -m unittest discover -s tests -v` unter Python 3.12. Keine Verbindung zu einem echten LEA-Konto wurde dabei aufgebaut. Zusätzlich werden die Begrenzung und die optionale Freigabe der Einsatzkoordinaten geprüft.
+**32 Offline-Tests bestanden** mit `python -m unittest discover -s tests -v` unter Python 3.12. Keine Verbindung zu einem echten LEA-Konto wurde dabei aufgebaut. Zusätzlich werden die Begrenzung und die optionale Freigabe der Einsatzkoordinaten geprüft.
 
 Geprüft werden:
 
@@ -39,3 +39,9 @@ Die Version ist deshalb ausdrücklich **experimentell und noch nicht produktiv v
 
 Die LEA-Dashboardkarte wurde in der vorhandenen HA-Instanz mit dem originalen Logo und der Seitenleistenverknüpfung sichtbar geprüft. Zum Prüfzeitpunkt lieferten die LEA-Sensoren keinen aktuellen Datenstand. Eine Prüfung mit echten Meldungen, einer mobilen Browserbreite und gültigen Einsatzkoordinaten steht noch aus. Ein bestehendes Dashboard unter `lea-noe` wird vom neuen automatischen Panel nicht überschrieben.
 
+
+## HA-Tonwiedergabe in 0.3.0
+
+Die zusätzlichen Tests verwenden einen simulierten HA-Servicebus und prüfen: automatische Wiedergabe nur bei freigegebener Alarmkategorie, expliziter Test bei ausgeschalteter Automatik, verfügbare und ausgefallene Geräte, unveränderte Lautstärke nach einem Stopp, Erhalt manueller Änderungen und das Verhindern von Wiedergabe nach dem Entladen. Die 38 Katalogoptionen werden gegen die unveränderten enthaltenen Audiodateien und deren SHA-256 geprüft. Die Paketprüfung umfasst alle 39 Audioassets.
+
+Der HA-Datenabruf mit Version 0.2.0 wurde am 26.11.2026 erfolgreich beobachtet; die persönliche Inbox war leer. Die neue Wiedergabesteuerung, Test-/Stopptasten und Optionen sind damit nicht als Hardwaretest bestätigt. Noch erforderlich sind Wiedergabe und Stopp auf den gewünschten Geräten, Erreichbarkeit der HA-Audio-URLs und ein tatsächliches neues Alarmereignis. Es wurde kein künstlicher LEA-Alarm erzeugt.

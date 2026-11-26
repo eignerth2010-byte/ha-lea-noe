@@ -1,5 +1,15 @@
 # Änderungen
 
+## 0.3.0 - 26.11.2026
+
+- 39 unveränderte Audioassets aus der bereitgestellten LEA-APK direkt im Integrationspaket, 38 logische Tonoptionen einschließlich Lautlos.
+- Lokale HA-Alarmierung mit Mediengeräteauswahl, Lautstärke und begrenzter Wiedergabe; automatische Wiedergabe standardmäßig aus.
+- Eigenständige Test-/Stopptasten und Tonvorschau im neuen Seitenleistenbereich Alarmtöne.
+- Neue persönliche Alarme lösen die Wiedergabe im HA-Backend aus, ohne ein geöffnetes Dashboard und ohne LEA-Schreibzugriff.
+- Gerätefehler werden getrennt behandelt; ein ausgefallenes Gerät verhindert die Wiedergabe auf anderen gewählten Geräten nicht.
+- Wiederherstellung gemeldeter Lautstärke unter Beachtung manueller Änderungen; laufende andere Medien werden beim Stoppen nach Möglichkeit erkannt.
+- 32 Offline-Tests für Protokoll, neue Meldungen, Katalog und Wiedergabesteuerung. Hardware-Wiedergabe bleibt zu prüfen.
+
 ## 0.2.0 – 25.11.2026
 
 - LEA-Seitenleisteneintrag für neue Installationen nach erfolgreicher Einrichtung.
