@@ -52,11 +52,16 @@
   "options": {
     "step": {
       "init": {
-        "title": "LEA-Lesezugriff",
-        "description": "Abruf alle 30 bis 300 Sekunden. Zusätzliche Details erscheinen am Sensor „Letzte Meldung“ und können dadurch auch in HA-Verlauf und Backups gelangen. Die Event-Entität zeigt ausschließlich Grundattribute.",
+        "title": "LEA-Anzeige und HA-Alarmierung",
+        "description": "Die Alarmtöne werden ausschließlich auf deinen ausgewählten Home-Assistant-Geräten abgespielt. Aktiviere die automatische Wiedergabe erst nach einem erfolgreichen Gerätetest. Es reagieren nur neue Alarmierungen, keine Nachrichten, Informationen oder Stornos. Vorhandene Meldungen beim ersten Start bleiben stumm. Ohne Geräteauswahl ist keine Wiedergabe möglich. Die maximale Dauer begrenzt die Wiedergabe; kurze Töne werden nicht wiederholt. Detailtexte und Orte können im HA-Verlauf und in Backups gespeichert werden.",
         "data": {
           "poll_interval": "Abrufintervall (Sekunden)",
-          "include_details": "Meldungstext, Meldebild und Einsatzort anzeigen"
+          "include_details": "Meldungstext, Meldebild und Einsatzort anzeigen",
+          "audio_enabled": "Neue LEA-Alarme in HA mit Ton wiedergeben",
+          "audio_players": "Wiedergabegeräte in Home Assistant",
+          "audio_sound": "Originaler LEA-Alarmton",
+          "audio_volume": "Alarm-Lautstärke",
+          "audio_duration": "Maximale Wiedergabedauer"
         }
       }
     }
@@ -76,6 +81,14 @@
     "event": {
       "notification": {
         "name": "Neue Meldung"
+      }
+    },
+    "button": {
+      "test_alarm_sound": {
+        "name": "HA-Alarmton testen"
+      },
+      "stop_alarm_sound": {
+        "name": "HA-Alarmton stoppen"
       }
     }
   }
