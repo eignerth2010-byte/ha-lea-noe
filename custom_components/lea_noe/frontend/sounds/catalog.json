@@ -1,0 +1,314 @@
+[
+  {
+    "id": "alarm",
+    "file": "alarm.mp3",
+    "label": "Alarm",
+    "seconds": 29.571,
+    "silent": false,
+    "sha256": "c7f8bed612d115a2430ed252e6f2fed28be88f3236d26bc6b102fb943f9e7060"
+  },
+  {
+    "id": "alarm1",
+    "file": "alarm1.mp3",
+    "label": "Alarm 1",
+    "seconds": 30.067,
+    "silent": false,
+    "sha256": "0b8c277a88bfc3d6332f37c1c3f3dbf7fba3b28d1049ea97338cb8d672a5bcb1"
+  },
+  {
+    "id": "alarm2",
+    "file": "alarm2.mp3",
+    "label": "Alarm 2",
+    "seconds": 29.989,
+    "silent": false,
+    "sha256": "c3cfc7f44c065896337cd482afa0fc9fc73a1446d438b894c4f10be9cd33ec18"
+  },
+  {
+    "id": "balloon",
+    "file": "balloon.m4a",
+    "label": "Ballon",
+    "seconds": 1.022,
+    "silent": false,
+    "sha256": "f2aa468991889086ac0a0a3a89e72c7817d0bce0a8f51c2129abb51a08b225d6"
+  },
+  {
+    "id": "bell1",
+    "file": "bell1.m4a",
+    "label": "Glocke 1",
+    "seconds": 1.44,
+    "silent": false,
+    "sha256": "e2bf942492630947dbde487baa6683e685247fde1e02d0e5e5321c01b4668cfa"
+  },
+  {
+    "id": "bell2",
+    "file": "bell2.m4a",
+    "label": "Glocke 2",
+    "seconds": 1.231,
+    "silent": false,
+    "sha256": "1269462f13f5165db4225880668de2d9af9f63382135b4c6fe5869f5642ad68f"
+  },
+  {
+    "id": "bell3",
+    "file": "bell3.m4a",
+    "label": "Glocke 3",
+    "seconds": 1.881,
+    "silent": false,
+    "sha256": "9f2e04701c264cb5e3e425fdec7448d780625cdddaad4fd7d1384dd3e0e752db"
+  },
+  {
+    "id": "bell4",
+    "file": "bell4.m4a",
+    "label": "Glocke 4",
+    "seconds": 3.088,
+    "silent": false,
+    "sha256": "2e4b2b16f2128a6519f03d7cfa9746e4630d0f8221ff7d63642ccfd352a61e1b"
+  },
+  {
+    "id": "ding1",
+    "file": "ding1.m4a",
+    "label": "Ding 1",
+    "seconds": 2.345,
+    "silent": false,
+    "sha256": "7667a1f4eb34e4eb670a68935584bbbf3453277843347c36186a47563a5d0516"
+  },
+  {
+    "id": "ding2",
+    "file": "ding2.m4a",
+    "label": "Ding 2",
+    "seconds": 0.859,
+    "silent": false,
+    "sha256": "379965c48040a814a1f78c009c84967338d73603f3b1bbf8db14a8da9d7740e0"
+  },
+  {
+    "id": "ding3",
+    "file": "ding3.m4a",
+    "label": "Ding 3",
+    "seconds": 2.949,
+    "silent": false,
+    "sha256": "4ca949195b5c6388f9c89b4e41481128890ab1688ad94104216bdff80d2df0c1"
+  },
+  {
+    "id": "ding4",
+    "file": "ding4.m4a",
+    "label": "Ding 4",
+    "seconds": 1.509,
+    "silent": false,
+    "sha256": "0da2c176aec7a73dc778416eebcfce9f5d44909f6507430b0380e209c88760f7"
+  },
+  {
+    "id": "ding5",
+    "file": "ding5.m4a",
+    "label": "Ding 5",
+    "seconds": 1.509,
+    "silent": false,
+    "sha256": "82f7b9714b359b161f3b0dc16349e373636072c262087bdd499b76e684ee4763"
+  },
+  {
+    "id": "doorbell1",
+    "file": "doorbell1.m4a",
+    "label": "Türklingel 1",
+    "seconds": 3.506,
+    "silent": false,
+    "sha256": "91b29ccd5aca921cb9b0820af1c3c1f0eead4e87e3545fd1870a6d3584bf80b9"
+  },
+  {
+    "id": "doorbell2",
+    "file": "doorbell2.m4a",
+    "label": "Türklingel 2",
+    "seconds": 2.183,
+    "silent": false,
+    "sha256": "fd84dfc71bc7146775095e3f37507066c30e37c0035784dc3edd80fde3e1c105"
+  },
+  {
+    "id": "frneu",
+    "file": "frneu.mp3",
+    "label": "FR Neu",
+    "seconds": 29.571,
+    "silent": false,
+    "sha256": "c78a9ff53c769e334f652ee4e77d6a1ee02d6311f4326e18a52346cfd587b318"
+  },
+  {
+    "id": "fwprio1",
+    "file": "fwprio1.mp3",
+    "label": "FW Prio 1",
+    "seconds": 29.571,
+    "silent": false,
+    "sha256": "6e3f44cd80bfa5e04fb94f2db22d3e4f637b0693f124682bb46d74c4cd5d8f52"
+  },
+  {
+    "id": "fwprio2",
+    "file": "fwprio2.mp3",
+    "label": "FW Prio 2",
+    "seconds": 29.571,
+    "silent": false,
+    "sha256": "c31a48f6f4325f65834bbea773fbf12da7911b0946fd4ffa3a9159199914d5a2"
+  },
+  {
+    "id": "fwprio3",
+    "file": "fwprio3.mp3",
+    "label": "FW Prio 3",
+    "seconds": 29.571,
+    "silent": false,
+    "sha256": "e93320c52868f40dd09694615f679cc9bc4f5e2ea673483bba4f1e90b124cecd"
+  },
+  {
+    "id": "gong",
+    "file": "gong.mp3",
+    "label": "Gong",
+    "seconds": 29.597,
+    "silent": false,
+    "sha256": "7e3eb3b500bb34c4d6d6cb3bd0d2c8a6efa8c40b89e042c747a4286e92333c30"
+  },
+  {
+    "id": "kt",
+    "file": "kt.mp3",
+    "label": "KT",
+    "seconds": 29.571,
+    "silent": false,
+    "sha256": "41be155727395401d2ee11a329f4c85b6af1eec8778eb6773d2f536dd97be136"
+  },
+  {
+    "id": "lautlos",
+    "file": "lautlos.mp3",
+    "label": "Lautlos",
+    "seconds": 0.72,
+    "silent": true,
+    "sha256": "d6053d364a5918185c86e69567cb3f705ac7b54707dd38b4962f41b9edb73524"
+  },
+  {
+    "id": "levelup",
+    "file": "levelup.m4a",
+    "label": "Level Up",
+    "seconds": 2.159,
+    "silent": false,
+    "sha256": "dd749f49070371e2887629806bf44aa76cd1a5921e43032d09e954c78611e0c0"
+  },
+  {
+    "id": "martinhorn",
+    "file": "martinhorn.mp3",
+    "label": "Martinshorn",
+    "seconds": 29.074,
+    "silent": false,
+    "sha256": "0214b3838af65f0b8cb8d52bc543c32ff514ffc77146f8693e75b7a44d4c4fbd"
+  },
+  {
+    "id": "microwave",
+    "file": "microwave.m4a",
+    "label": "Mikrowelle",
+    "seconds": 1.44,
+    "silent": false,
+    "sha256": "da18cc17ff606446f2cbd00e510c33079867b111db7ad83909c4a46043e38b98"
+  },
+  {
+    "id": "notification1",
+    "file": "notification1.m4a",
+    "label": "Notification 1",
+    "seconds": 2.043,
+    "silent": false,
+    "sha256": "6234e11bc20ca66125965b1189eec76e3ebdf5dd7e5c809adaae665b7dd1c857"
+  },
+  {
+    "id": "notification2",
+    "file": "notification2.m4a",
+    "label": "Notification 2",
+    "seconds": 1.3,
+    "silent": false,
+    "sha256": "f83f84924e6af1077af8d50a266d8ec81fc5d1c5e95940040dd6fc0e2d3c9e17"
+  },
+  {
+    "id": "notification3",
+    "file": "notification3.m4a",
+    "label": "Notification 3",
+    "seconds": 1.44,
+    "silent": false,
+    "sha256": "1fe36d61c12369653265a6ae8bdc009124c9caafbea739fb18256edf28918d05"
+  },
+  {
+    "id": "notification4",
+    "file": "notification4.m4a",
+    "label": "Notification 4",
+    "seconds": 1.324,
+    "silent": false,
+    "sha256": "cf5a8a048a0b9bcad0ad8ae64feb4a687241eeee945b2815c6af082545365921"
+  },
+  {
+    "id": "pop1",
+    "file": "pop1.m4a",
+    "label": "Pop 1",
+    "seconds": 0.975,
+    "silent": false,
+    "sha256": "873b5bc7649f946894ad0861411d0d5b1242263a9c8daa12b05cee71b5e4a636"
+  },
+  {
+    "id": "pop2",
+    "file": "pop2.m4a",
+    "label": "Pop 2",
+    "seconds": 0.72,
+    "silent": false,
+    "sha256": "c375506061a209741749554574a2d021a160154b1063e4630d24c35916e700dd"
+  },
+  {
+    "id": "rdprio1",
+    "file": "rdprio1.mp3",
+    "label": "RD Prio 1",
+    "seconds": 29.466,
+    "silent": false,
+    "sha256": "f7989c38d88c04f97aefa9aa5552562dc2c5c072290870c6f94aab15fced36b0"
+  },
+  {
+    "id": "rdprio2",
+    "file": "rdprio2.mp3",
+    "label": "RD Prio 2",
+    "seconds": 29.571,
+    "silent": false,
+    "sha256": "8e7eacbb769987c121fb85de03789f1a0341e152b70f85b755e5d9ebe7c7d6e3"
+  },
+  {
+    "id": "rdprio3",
+    "file": "rdprio3.mp3",
+    "label": "RD Prio 3",
+    "seconds": 29.466,
+    "silent": false,
+    "sha256": "219a0c55556c445ce66c8b902d62902c3a28416ce8e1b2ea4a4226869f0b4f45"
+  },
+  {
+    "id": "retro",
+    "file": "retro.m4a",
+    "label": "Retro",
+    "seconds": 0.836,
+    "silent": false,
+    "sha256": "98eba984cd788fbca37df3496e42ab446d8d14a09d0b06ad6b31141101617e94"
+  },
+  {
+    "id": "ring",
+    "file": "ring.mp3",
+    "label": "Ring",
+    "seconds": 30.067,
+    "silent": false,
+    "sha256": "5ab742b36844c0eb0b5a971204067750c4e6fa98f6dfbf5de67b63238cda4837"
+  },
+  {
+    "id": "schoolbell",
+    "file": "schoolbell.m4a",
+    "label": "Schulglocke",
+    "seconds": 3.855,
+    "silent": false,
+    "sha256": "7f4fdd0e645a6b9ab8a455c7434d6c87802bc83807f41077c3d58e76206d82ad"
+  },
+  {
+    "id": "silence",
+    "file": "silence.mp3",
+    "label": "Silence",
+    "seconds": 0.72,
+    "silent": true,
+    "sha256": "d6053d364a5918185c86e69567cb3f705ac7b54707dd38b4962f41b9edb73524"
+  },
+  {
+    "id": "sirene",
+    "file": "sirene.mp3",
+    "label": "Sirene",
+    "seconds": 29.989,
+    "silent": false,
+    "sha256": "a85a18d9bf7435a29da286bfa21fdacebe14b46b20186d2f3ba7add3d5d2c977"
+  }
+]
