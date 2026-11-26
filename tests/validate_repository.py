@@ -4,6 +4,7 @@ import ast
 import json
 from pathlib import Path
 import struct
+import hashlib
 
 root = Path(__file__).resolve().parents[1]
 integration = root / "custom_components" / "lea_noe"
@@ -25,5 +26,13 @@ width,height=struct.unpack(">II", icon[16:24])
 assert width == height and width >= 256
 assert (integration / "frontend" / "lea-logo.svg").is_file()
 assert (integration / "frontend" / "lea-card.js").is_file()
+audio = integration / "frontend" / "sounds"
+catalog = json.loads((audio / "catalog.json").read_text(encoding="utf-8"))
+assert len(catalog) == 39
+assert {p.name for p in audio.iterdir() if p.suffix in {".mp3", ".m4a"}} == {row["file"] for row in catalog}
+for row in catalog:
+    assert Path(row["file"]).name == row["file"]
+    assert hashlib.sha256((audio / row["file"]).read_bytes()).hexdigest() == row["sha256"]
+assert "media_player" in manifest["dependencies"]
 print("JSON, Python syntax, HACS manifest, integration layout and PNG icon: OK")
 
