@@ -2,7 +2,7 @@
 
 DOMAIN = "lea_noe"
 NAME = "LEA BOS mobil"
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 API_HOST = "https://lea.api.notrufnoe.at"
 CONF_PHONE = "phone_number"
 CONF_TOKEN = "access_token"
@@ -15,4 +15,12 @@ MAX_INTERVAL = 300
 INBOX_LIMIT = 100
 INCIDENT_LIMIT = 25
 EVENT_TYPES = ["alarm", "information", "cancellation", "message", "unknown"]
+
+# These options control HA media players only. They are never sent to LEA.
+CONF_AUDIO_ENABLED = "audio_enabled"
+CONF_AUDIO_PLAYERS = "audio_players"
+CONF_AUDIO_SOUND = "audio_sound"
+CONF_AUDIO_VOLUME = "audio_volume"
+CONF_AUDIO_DURATION = "audio_duration"
+DEFAULT_AUDIO_SOUND = "fwprio1"
 

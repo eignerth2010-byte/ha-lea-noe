@@ -30,6 +30,7 @@ class LeaCoordinator(DataUpdateCoordinator[Snapshot]):
         self.include_details = bool(entry.options.get(CONF_DETAILS, False))
         self.seen = SeenNotifications()
         self.pending: deque[Notification] = deque(maxlen=200)
+        self.audio = None
         self._store = Store(hass, 1, f"{DOMAIN}.{entry.entry_id}.seen")
 
     async def async_load_seen(self) -> None:
@@ -49,7 +50,10 @@ class LeaCoordinator(DataUpdateCoordinator[Snapshot]):
             raise UpdateFailed("LEA verweigert den Lesezugriff.") from err
         except LeaError as err:
             raise UpdateFailed(str(err)) from err
-        self.pending.extend(self.seen.observe(snapshot.notifications))
+        new_notifications = self.seen.observe(snapshot.notifications)
+        self.pending.extend(new_notifications)
+        if self.audio and new_notifications:
+            self.hass.async_create_task(self.audio.async_handle(new_notifications))
         self._store.async_delay_save(self.seen.serialize, 5)
         return snapshot
 

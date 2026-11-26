@@ -5,13 +5,15 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.storage import Store
+from homeassistant.helpers.network import get_url
 
 from .api import LeaClient
 from .const import CONF_TOKEN, DOMAIN
 from .coordinator import LeaCoordinator
+from .alarm import LeaAlarmPlayer
 from .panel import async_setup_frontend, async_add_entry_panel, async_remove_entry_panel
 
-PLATFORMS = [Platform.SENSOR, Platform.EVENT]
+PLATFORMS = [Platform.SENSOR, Platform.EVENT, Platform.BUTTON]
 
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
@@ -24,6 +26,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     coordinator = LeaCoordinator(hass, entry, client)
     await coordinator.async_load_seen()
     await coordinator.async_config_entry_first_refresh()
+    coordinator.audio = LeaAlarmPlayer(hass, entry, lambda: get_url(hass))
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     await async_add_entry_panel(hass, entry.entry_id, coordinator)
@@ -36,8 +39,12 @@ async def _async_options_updated(hass: HomeAssistant, entry: ConfigEntry) -> Non
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    if entry.runtime_data.audio:
+        await entry.runtime_data.audio.async_stop()
     unloaded = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unloaded:
+        if entry.runtime_data.audio:
+            await entry.runtime_data.audio.async_shutdown()
         async_remove_entry_panel(hass, entry.entry_id)
         await entry.runtime_data.async_save_seen()
     return unloaded

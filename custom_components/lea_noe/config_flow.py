@@ -16,8 +16,11 @@ from .api import LeaAccessError, LeaAuthError, LeaClient, LeaError, LeaProtocolE
 from .const import (
     CONF_DETAILS, CONF_INTERVAL, CONF_METHOD, CONF_PHONE, CONF_TOKEN,
     DEFAULT_INTERVAL, DOMAIN, MAX_INTERVAL, MIN_INTERVAL, NAME,
+    CONF_AUDIO_ENABLED, CONF_AUDIO_PLAYERS, CONF_AUDIO_SOUND,
+    CONF_AUDIO_VOLUME, CONF_AUDIO_DURATION, DEFAULT_AUDIO_SOUND,
 )
 from .models import normalize_phone, text
+from .sounds import SOUNDS
 
 
 def _secret_selector():
@@ -172,6 +175,23 @@ class LeaOptionsFlow(config_entries.OptionsFlow):
                 p.Required(CONF_INTERVAL, default=self.config_entry.options.get(CONF_INTERVAL, DEFAULT_INTERVAL)):
                     p.All(p.Coerce(int), p.Range(min=MIN_INTERVAL, max=MAX_INTERVAL)),
                 p.Required(CONF_DETAILS, default=self.config_entry.options.get(CONF_DETAILS, False)): bool,
+                p.Required(CONF_AUDIO_ENABLED, default=self.config_entry.options.get(CONF_AUDIO_ENABLED, False)): bool,
+                p.Required(CONF_AUDIO_PLAYERS, default=self.config_entry.options.get(CONF_AUDIO_PLAYERS, [])):
+                    selector.EntitySelector(selector.EntitySelectorConfig(domain="media_player", multiple=True)),
+                p.Required(CONF_AUDIO_SOUND, default=self.config_entry.options.get(CONF_AUDIO_SOUND, DEFAULT_AUDIO_SOUND)):
+                    selector.SelectSelector(selector.SelectSelectorConfig(
+                        options=[{"value": key, "label": sound["label"]} for key, sound in SOUNDS.items()],
+                        mode=selector.SelectSelectorMode.DROPDOWN,
+                    )),
+                p.Required(CONF_AUDIO_VOLUME, default=self.config_entry.options.get(CONF_AUDIO_VOLUME, 50)):
+                    selector.NumberSelector(selector.NumberSelectorConfig(min=0, max=100, step=1, unit_of_measurement="%")),
+                p.Required(CONF_AUDIO_DURATION, default=str(self.config_entry.options.get(CONF_AUDIO_DURATION, 0))):
+                    selector.SelectSelector(selector.SelectSelectorConfig(options=[
+                        {"value": "0", "label": "Einmal vollständig"},
+                        {"value": "10", "label": "Höchstens 10 Sekunden"},
+                        {"value": "30", "label": "Höchstens 30 Sekunden"},
+                        {"value": "60", "label": "Höchstens 60 Sekunden"},
+                    ], mode=selector.SelectSelectorMode.DROPDOWN)),
             }),
         )
 

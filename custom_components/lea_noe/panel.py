@@ -6,8 +6,10 @@ import probatio as p
 from homeassistant.components import frontend, panel_custom, websocket_api
 from homeassistant.components.http import StaticPathConfig
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import entity_registry as er
 
 from .const import DOMAIN, VERSION
+from .sounds import SOUNDS
 
 PANEL_PATH = "lea-noe"
 STATIC_PATH = "/lea-noe-static"
@@ -58,6 +60,7 @@ def async_remove_entry_panel(hass: HomeAssistant, entry_id: str) -> None:
 def websocket_notifications(hass: HomeAssistant, connection, msg: dict) -> None:
     """Return only projected coordinator data to an authenticated HA admin."""
     accounts = []
+    registry = er.async_get(hass)
     for entry_id, coordinator in hass.data.get(DOMAIN, {}).get("entries", {}).items():
         snapshot = coordinator.data
         accounts.append({
@@ -67,6 +70,11 @@ def websocket_notifications(hass: HomeAssistant, connection, msg: dict) -> None:
             "include_details": coordinator.include_details,
             "fetched_at": snapshot.fetched_at.isoformat() if snapshot else None,
             "notifications": [item.attributes(coordinator.include_details) for item in snapshot.notifications] if snapshot else [],
+            "audio": {
+                **(coordinator.audio.settings if coordinator.audio else {}),
+                "test_entity": registry.async_get_entity_id("button", DOMAIN, f"{coordinator.entry.unique_id}_test_alarm_sound"),
+                "stop_entity": registry.async_get_entity_id("button", DOMAIN, f"{coordinator.entry.unique_id}_stop_alarm_sound"),
+            },
         })
-    connection.send_result(msg["id"], {"version": VERSION, "accounts": accounts})
+    connection.send_result(msg["id"], {"version": VERSION, "accounts": accounts, "sounds": list(SOUNDS.values())})
 

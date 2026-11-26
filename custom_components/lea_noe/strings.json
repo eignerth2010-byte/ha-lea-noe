@@ -52,11 +52,16 @@
   "options": {
     "step": {
       "init": {
-        "title": "LEA read access",
-        "description": "Poll every 30 to 300 seconds. Optional text and location details appear on the latest-notification sensor and may then enter HA history and backups. The event entity only exposes basic attributes.",
+        "title": "LEA display and HA alarm sounds",
+        "description": "Sounds play only on the selected Home Assistant devices. Enable automatic playback after a successful device test. Only new alarm events trigger playback, not information, messages or cancellations. Existing notifications at initial setup remain silent. Select at least one media player. Maximum duration caps playback; short sounds are not looped. Optional incident details may enter HA history and backups.",
         "data": {
           "poll_interval": "Polling interval (seconds)",
-          "include_details": "Show message text, keyword and incident location"
+          "include_details": "Show message text, keyword and incident location",
+          "audio_enabled": "Play sounds for new LEA alarms in HA",
+          "audio_players": "Home Assistant media players",
+          "audio_sound": "Original LEA alarm sound",
+          "audio_volume": "Alarm volume",
+          "audio_duration": "Maximum playback duration"
         }
       }
     }
@@ -76,6 +81,14 @@
     "event": {
       "notification": {
         "name": "New notification"
+      }
+    },
+    "button": {
+      "test_alarm_sound": {
+        "name": "Test HA alarm sound"
+      },
+      "stop_alarm_sound": {
+        "name": "Stop HA alarm sound"
       }
     }
   }
