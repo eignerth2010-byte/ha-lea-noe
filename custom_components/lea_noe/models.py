@@ -79,6 +79,8 @@ class Notification:
     location: str
     latitude: float | None = None
     longitude: float | None = None
+    alarm_group_id: str = ""
+    alarm_group_name: str = ""
 
     @property
     def label(self) -> str:
@@ -93,6 +95,8 @@ class Notification:
             "alarmstufe": self.alarm_level,
             "einsatzart": self.incident_type,
             "zeitstempel": self.timestamp.isoformat() if self.timestamp else None,
+            "alarmgruppen_id": self.alarm_group_id or None,
+            "alarmgruppe": self.alarm_group_name or None,
         }
         if include_details:
             attributes.update(meldebild=self.keyword, nachricht=self.message, einsatzort=self.location)
@@ -101,7 +105,7 @@ class Notification:
         return attributes
 
 
-def project_notification(inbox: dict, incident: dict, embedded: dict, include_details: bool) -> Notification | None:
+def project_notification(inbox: dict, incident: dict, embedded: dict, include_details: bool, groups: tuple = ()) -> Notification | None:
     """Join personal inbox records by UUID, never import another person's message."""
     row = {**incident, **embedded, **inbox}
     identifier = text(inbox.get("uuid"), 256)
@@ -117,6 +121,10 @@ def project_notification(inbox: dict, incident: dict, embedded: dict, include_de
         type_id = int(inbox.get("nachrichtenartId", embedded.get("nachrichtenartId")))
     except (KeyError, TypeError, ValueError):
         type_id = None
+    # Only this personal notification or its exact embedded match identifies
+    # its group. An incident summary may refer to a different recipient/group.
+    group_id = text(inbox.get("alarmgruppenId", embedded.get("alarmgruppenId")), 128)
+    group_name = next((group.name for group in groups if group.identifier == group_id), "")
     return Notification(
         identifier=identifier,
         incident_number=text(row.get("einsatznummer"), 128),
@@ -130,6 +138,8 @@ def project_notification(inbox: dict, incident: dict, embedded: dict, include_de
         location=text(row.get("einsatzort")) if include_details else "",
         latitude=coordinate(incident.get("positionX"), 90) if include_details else None,
         longitude=coordinate(incident.get("positionY"), 180) if include_details else None,
+        alarm_group_id=group_id,
+        alarm_group_name=group_name,
     )
 
 
@@ -137,6 +147,9 @@ def project_notification(inbox: dict, incident: dict, embedded: dict, include_de
 class Snapshot:
     notifications: tuple[Notification, ...]
     fetched_at: datetime
+    groups: tuple = ()
+    groups_available: bool = False
+    groups_updated_at: datetime | None = None
 
     @property
     def latest(self) -> Notification | None:

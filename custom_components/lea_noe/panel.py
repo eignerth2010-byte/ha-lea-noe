@@ -70,6 +70,9 @@ def websocket_notifications(hass: HomeAssistant, connection, msg: dict) -> None:
             "include_details": coordinator.include_details,
             "fetched_at": snapshot.fetched_at.isoformat() if snapshot else None,
             "notifications": [item.attributes(coordinator.include_details) for item in snapshot.notifications] if snapshot else [],
+            "groups": [group.attributes() for group in snapshot.groups] if snapshot else [],
+            "groups_available": snapshot.groups_available if snapshot else False,
+            "groups_updated_at": snapshot.groups_updated_at.isoformat() if snapshot and snapshot.groups_updated_at else None,
             "audio": {
                 **(coordinator.audio.settings if coordinator.audio else {}),
                 "test_entity": registry.async_get_entity_id("button", DOMAIN, f"{coordinator.entry.unique_id}_test_alarm_sound"),

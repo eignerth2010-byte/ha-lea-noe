@@ -11,10 +11,12 @@ import asyncio
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 import json
+from time import monotonic
 from typing import Any, TYPE_CHECKING
 
 from .const import API_HOST, INBOX_LIMIT, INCIDENT_LIMIT, VERSION
 from .models import Snapshot, project_notification, text
+from .groups import project_alarm_groups
 
 if TYPE_CHECKING:
     from aiohttp import ClientSession
@@ -68,6 +70,10 @@ class LeaClient:
         self._session = session
         self._token = token
         self._allow_auth = allow_auth
+        self._groups = ()
+        self._groups_available = False
+        self._groups_updated_at = None
+        self._groups_refresh_after = 0.0
 
     def __repr__(self) -> str:
         return f"LeaClient(authenticated={bool(self._token)}, allow_auth={self._allow_auth})"
@@ -141,6 +147,15 @@ class LeaClient:
         response = await self._request("GET", "/me")
         if not text(response.get("id"), 128):
             raise LeaProtocolError("LEA profile has no identity")
+        try:
+            groups = project_alarm_groups(response)
+        except ValueError:
+            self._groups_available = False
+        else:
+            self._groups = groups
+            self._groups_available = True
+            self._groups_updated_at = datetime.now(timezone.utc)
+        self._groups_refresh_after = monotonic() + 1800
         return response
 
     @staticmethod
@@ -150,7 +165,18 @@ class LeaClient:
             raise LeaProtocolError("LEA returned an invalid item list")
         return rows
 
-    async def fetch_snapshot(self, *, include_details: bool = False) -> Snapshot:
+    async def fetch_snapshot(self, *, include_details: bool = False, include_groups: bool = False) -> Snapshot:
+        if include_groups and monotonic() >= self._groups_refresh_after:
+            try:
+                await self.get_profile()
+            except (LeaAuthError, LeaRateLimitError):
+                raise
+            except LeaError as error:
+                # Group metadata is optional: a failed profile refresh must not
+                # suppress otherwise readable personal alarms. Retain the last
+                # catalogue and mark it stale. Rate limits propagate above.
+                self._groups_available = False
+                self._groups_refresh_after = monotonic() + 300
         inbox = self._items(await self._request("GET", "/notifications", params={"limit": INBOX_LIMIT}))
         # Empty personal inbox does not require an incident request.
         incidents = self._items(await self._request("GET", "/incidents", params={
@@ -168,7 +194,7 @@ class LeaClient:
                 (row.get("uuid") and item.get("uuid") == row["uuid"])
                 or (row.get("benachrichtigungId") is not None and str(item.get("benachrichtigungId")) == str(row["benachrichtigungId"]))
             )), {})
-            notification = project_notification(row, incident, embedded, include_details)
+            notification = project_notification(row, incident, embedded, include_details, self._groups)
             if notification is None:
                 raise LeaProtocolError("LEA personal notification has no stable identifier")
             if notification.identifier not in seen:
@@ -176,4 +202,5 @@ class LeaClient:
                 seen.add(notification.identifier)
         # Stable sort preserves inbox order when timestamps are absent/equal.
         notifications.sort(key=lambda item: item.timestamp or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
-        return Snapshot(tuple(notifications), datetime.now(timezone.utc))
+        return Snapshot(tuple(notifications), datetime.now(timezone.utc), self._groups,
+                        self._groups_available, self._groups_updated_at)

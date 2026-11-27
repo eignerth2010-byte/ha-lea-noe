@@ -41,7 +41,7 @@ class LeaCoordinator(DataUpdateCoordinator[Snapshot]):
 
     async def _async_update_data(self) -> Snapshot:
         try:
-            snapshot = await self.client.fetch_snapshot(include_details=self.include_details)
+            snapshot = await self.client.fetch_snapshot(include_details=self.include_details, include_groups=True)
         except LeaAuthError as err:
             raise ConfigEntryAuthFailed("LEA-Sitzung abgelaufen. Bitte erneut anmelden.") from err
         except LeaRateLimitError as err:

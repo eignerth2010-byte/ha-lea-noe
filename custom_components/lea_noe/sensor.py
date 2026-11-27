@@ -16,6 +16,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     async_add_entities([
         LeaLatestSensor(coordinator), LeaInboxCountSensor(coordinator),
         LeaFetchTimeSensor(coordinator),
+        LeaAlarmGroupsSensor(coordinator),
     ])
 
 
@@ -61,4 +62,28 @@ class LeaFetchTimeSensor(LeaEntity, SensorEntity):
     @property
     def native_value(self):
         return self.coordinator.data.fetched_at
+
+
+class LeaAlarmGroupsSensor(LeaEntity, SensorEntity):
+    _attr_translation_key = "alarm_groups"
+    _attr_icon = "mdi:account-group"
+    _attr_native_unit_of_measurement = "Gruppen"
+    _unrecorded_attributes = frozenset({"alarmgruppen", "aktualisiert_am"})
+
+    def __init__(self, coordinator) -> None:
+        super().__init__(coordinator, "alarm_groups")
+
+    @property
+    def available(self):
+        return super().available and self.coordinator.data.groups_available
+
+    @property
+    def native_value(self):
+        return len(self.coordinator.data.groups)
+
+    @property
+    def extra_state_attributes(self):
+        snapshot = self.coordinator.data
+        return {"alarmgruppen": [group.attributes() for group in snapshot.groups],
+                "aktualisiert_am": snapshot.groups_updated_at.isoformat() if snapshot.groups_updated_at else None}
 
