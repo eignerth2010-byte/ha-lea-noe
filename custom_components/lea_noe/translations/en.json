@@ -76,6 +76,9 @@
       },
       "last_fetch": {
         "name": "Last successful fetch"
+      },
+      "alarm_groups": {
+        "name": "Alarm groups"
       }
     },
     "event": {
