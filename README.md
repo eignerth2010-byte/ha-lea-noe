@@ -1,8 +1,16 @@
 # LEA BOS mobil für Home Assistant – Lesen
 
-Version **0.3.0 - experimentelle Testversion**, entwickelt aus der bereitgestellten LEA-Android-Datei 2.0.0. Es handelt sich um eine inoffizielle Custom Integration.
+Version **0.4.0 - experimentelle Testversion**, entwickelt aus der bereitgestellten LEA-Android-Datei 2.0.0. Es handelt sich um eine inoffizielle Custom Integration.
 
 Der Code ist erstellt und offline geprüft. Version 0.2.0 hat in einer HA-Instanz erfolgreiche, wiederholte Abrufe einer leeren persönlichen Inbox geliefert. **Ein echter neuer Alarm und die Tonwiedergabe von Version 0.3.0 auf Hardware sind noch nicht vollständig getestet.** Bei einer neuen persönlichen Anmeldung wurde eine automatische Abmeldung des anderen Geräts gemeldet. Ein verlässlicher Parallelzugang mit derselben persönlichen Sitzung ist nicht bestätigt. Die Integration ist eine ergänzende Anzeige; die LEA-App bleibt für die reguläre Alarmierung erforderlich.
+
+## Persönliche Alarmgruppen
+
+Ab Version 0.4.0 werden deine persönlichen Alarmgruppen aus `GET /me` eingelesen. Der Bereich **Gruppen** in der LEA-Seitenleiste zeigt Gruppen-ID, Namen, Organisation und Organisationseinheit. Der Sensor **Alarmgruppen** enthält ihre Anzahl und die Liste im Attribut `alarmgruppen`. Der Profilabruf erfolgt beim Start und anschließend höchstens alle 30 Minuten. Ein fehlender oder fehlerhafter Gruppenstand wird als nicht verfügbar markiert; er wird nicht als „0 Gruppen“ ausgegeben.
+
+Persönliche Meldungen erhalten die Attribute `alarmgruppen_id` und `alarmgruppe`, auch auf der Event-Entität. Die Gruppen-ID stammt ausschließlich aus dem persönlichen Inbox-Eintrag oder dessen exakt zugeordneter eingebetteter Meldung. Gruppen anderer Empfänger oder die Zusammenfassung eines Einsatzes werden dafür nicht verwendet. Unbekannte IDs bleiben sichtbar, ein Name wird nicht geraten. Fehlt die ID in einer Meldung, kann ihre Gruppe nicht sicher bestimmt werden. Die Gruppenzuordnung ändert den ursprünglichen LEA-Meldungstyp nicht.
+
+Es werden keine Gruppenmitgliedschaften, App-Grundkonfigurationen oder Tonzuweisungen in LEA geändert. Die Gruppenliste allein beweist weder den Eingang einer Sirenenprobe noch, dass die betreffende Gruppe für die wöchentliche Probe verwendet wird. Gruppennamen oder IDs aus einem persönlichen Profil gehören nicht in öffentliche Fehlerberichte.
 
 ## HA-Alarmierung mit originalen LEA-Tönen
 
@@ -25,7 +33,7 @@ Diese Einstellungen und Tasten ändern ausschließlich HA-Geräte. Sie veränder
 
 ### Bestehende Dashboardkarte aktualisieren
 
-Wenn die Karte bisher als Inline-Ressource eingerichtet wurde, deren Ressourcen-URL nach dem Integrationsupdate durch `/lea-noe-static/lea-card.js?v=0.3.0` ersetzen und den Browser vollständig neu laden. Nur eine LEA-Kartenressource registrieren. Der automatisch angelegte Panel-Eintrag verwendet die mitgelieferte Version bereits selbst.
+Wenn die Karte bisher als Inline-Ressource eingerichtet wurde, deren Ressourcen-URL nach dem Integrationsupdate durch `/lea-noe-static/lea-card.js?v=0.4.0` ersetzen und den Browser vollständig neu laden. Nur eine LEA-Kartenressource registrieren. Der automatisch angelegte Panel-Eintrag verwendet die mitgelieferte Version bereits selbst.
 
 ## Seitenleiste und Ansicht
 
@@ -81,6 +89,7 @@ Die tatsächlichen Entitäts-IDs vergibt Home Assistant beim Hinzufügen; sie k�
 
 | Entität | Inhalt |
 |---|---|
+| Alarmgruppen | Anzahl und Liste der persönlichen Alarmgruppen, mit Profil-Aktualisierungszeit |
 | Letzte Meldung | Kategorie der zuletzt abrufbaren persönlichen Meldung; Attribute mit ID, Einsatznummer, Art, Alarmstufe und Zeit |
 | Meldungen im Abruffenster | Anzahl persönlicher Meldungen im aktuellen Abruf, maximal 100; keine Aussage über aktive Einsätze |
 | Letzter erfolgreicher Abruf | UTC-Zeitpunkt des letzten vollständigen, erfolgreichen Abrufs |

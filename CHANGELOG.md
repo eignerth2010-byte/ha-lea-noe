@@ -1,5 +1,14 @@
 # Änderungen
 
+## 0.4.0 – 27.11.2026
+
+- Persönliche Alarmgruppen aus dem LEA-Profil, ausschließlich lesend und zwischengespeichert.
+- Gruppenansicht in der Seitenleiste und Sensor mit Gruppenliste.
+- Gruppen-ID und aufgelöster Name an persönlichen Meldungen und Ereignissen; keine Ableitung aus anderen Empfängern.
+- Fehlerhafter Gruppenabruf lässt lesbare Meldungen weiter zu; Authentifizierungsfehler und Rate-Limits werden weitergereicht.
+- 41 Offline-Tests, einschließlich Mitgliedschaftsbegrenzung und Gruppen-Zuordnung.
+
+
 ## 0.3.0 - 26.11.2026
 
 - 39 unveränderte Audioassets aus der bereitgestellten LEA-APK direkt im Integrationspaket, 38 logische Tonoptionen einschließlich Lautlos.

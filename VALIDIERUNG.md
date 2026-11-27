@@ -1,3 +1,7 @@
+# Ergänzung Version 0.4.0 – 27.11.2026
+
+41 Offline-Tests erfolgreich; Paketprüfung und JavaScript-Syntaxprüfung erfolgreich. Geprüft sind persönliche Gruppen aus dem Profil, keine Übernahme fremder Mitgliedschaften, keine Personen-/Telefonfelder, ID-Zuordnung ausschließlich an der eigenen Meldung, Profil-Cache und Fortsetzung des Meldungsabrufs bei ausgefallenem optionalem Gruppenabruf. Fehlende Gruppenfelder sind kein bestätigter leerer Gruppenstand. Der Live-Gruppenabruf von 0.4.0 und ein echter Probealarm sind zum Veröffentlichungszeitpunkt noch nicht verifiziert.
+
 # Prüfstand – Version 0.3.0
 
 Stand: 26.11.2026. Zielsystem: Home Assistant 2026.11.3; Mindestversion dieser Implementierung: 2026.11.

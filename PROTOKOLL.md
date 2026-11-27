@@ -52,3 +52,9 @@ Diese Unterlagen sind keine öffentliche Freigabe oder API-Dokumentation für di
 
 Keine echte Anmeldung, keine Live-Antwortstruktur des persönlichen Kontos, kein Empfangstest mit parallelem Handy, kein Lauf in einer Home-Assistant-Instanz. Insbesondere sind Serverakzeptanz der SMS-Anmeldung ohne Push-Token, Sitzungslaufzeit, Parallelbetrieb sowie Nebenwirkungen serverseitiger GET-Endpunkte ohne Live-Prüfung nicht zugesichert. Die Tests belegen die vom Client gesendeten Methoden, nicht das interne Verhalten des LEA-Servers.
 
+
+## Ergänzung 27.11.2026: Gruppen
+
+`chunk-Lqg5tKWv2.js` liest `GET /me` und projiziert `organisationen[].organisationseinheiten[]` sowie die persönliche oberste Liste `alarmgruppen[]` mit `id`, `beschreibung`, `organisationseinheitenId` und `dynamic`. `chunk-CmJshXLz.js` baut die Konfigurationsliste aus genau dieser persönlichen Gruppenliste auf. Die Integration übernimmt keine Personen-, Qualifikations-, Telefonnummern- oder Mitgliederdaten.
+
+`chunk-BBKhSYCo2.js`, Funktion `Rn`, übernimmt `alarmgruppenId` aus der einzelnen Meldung. Deshalb verwendet die Integration diese ID ausschließlich aus der persönlichen Inbox oder dem exakt zugeordneten eingebetteten Eintrag; die Einsatz-Zusammenfassung ist kein zuverlässiger Ersatz.
